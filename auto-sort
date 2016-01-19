@@ -141,7 +141,9 @@ SAMPLES="*.js
 *.css
 *.php
 *.sh
-*.bin "
+*.bin
+*.asp
+*.aspx "
 for t in $SAMPLES; do
 	find_and_move "$t" "$HOME/Documents/Samples" 2> /dev/null
 done
