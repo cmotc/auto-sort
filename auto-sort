@@ -1,0 +1,59 @@
+#! /bin/sh
+
+donttouch_check(){
+	TEST=$(echo "$1" | grep "Project")
+	if [ -z $TEST ]; then
+		TEST=$(echo "$1" | grep "conf")
+		if [ -z $TEST ]; then
+		TEST=$(echo "$1" | grep "local")
+		if [ -z $TEST ]; then
+		TEST=$(echo "$1" | grep "share")
+		if [ -z $TEST ]; then
+		TEST=$(echo "$1" | grep "keep")
+		if [ -z $TEST ]; then
+		TEST=$(echo "$1" | grep ".*rc")
+		if [ -z $TEST ]; then
+		TEST=$(echo "$1" | grep "$HOME/Books")
+		if [ -z $TEST ]; then
+			echo "# mv "" $1 "" $2 "
+		fi
+		fi
+		fi
+		fi
+		fi
+		fi
+	fi
+}
+
+find_and_move(){
+	PATTERN="$1"
+	DIRECTORY="$2"
+	LIST=$(find "$HOME" -name "$PATTERN" 2> /dev/null)
+	for f in $LIST; do
+		if [ -f $f ]; then
+		if [ -d "$DIRECTORY" ]; then
+			donttouch_check "$f" "$DIRECTORY"
+		fi
+		fi
+	done
+}
+
+AUDIO="*.ogg 
+*.flac 
+*.mp3 
+*.ogg"
+TEXT="*.pdf 
+*.ps "
+VIDEO="*.mkv 
+*.mp4 
+*.mpeg 
+*.ogv "
+for t in $TEXT; do
+	find_and_move "$t" "$HOME/Books" 2> /dev/null
+done
+for t in $AUDIO; do
+	find_and_move "$AUDIO" "$HOME/Music" 2> /dev/null
+done
+for t in $VIDEO; do
+	find_and_move "$VIDEO" "$HOME/Videos" 2> /dev/null
+done
