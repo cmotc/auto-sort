@@ -21,7 +21,49 @@ donttouch_check(){
 		if [ -z $TEST ]; then
 		TEST=$(echo "$1" | grep "WORKING_")
 		if [ -z $TEST ]; then
-			mv "$1" "$2"
+		TEST=$(echo "$1" | grep "README")
+		if [ -z $TEST ]; then
+		TEST=$(echo "$1" | grep "INSTALL")
+		if [ -z $TEST ]; then
+		TEST=$(echo "$1" | grep "HACKING")
+		if [ -z $TEST ]; then
+		TEST=$(echo "$1" | grep "SCRIPTING")
+		if [ -z $TEST ]; then
+		TEST=$(echo "$1" | grep "COPYING")
+		if [ -z $TEST ]; then
+		TEST=$(echo "$1" | grep "mozilla")
+		if [ -z $TEST ]; then
+		TEST=$(echo "$1" | grep "package")
+		if [ -z $TEST ]; then
+		TEST=$(echo "$1" | grep "icedove")
+		if [ -z $TEST ]; then
+		TEST=$(echo "$1" | grep "client")
+		if [ -z $TEST ]; then
+		TEST=$(echo "$1" | grep "static")
+		if [ -z $TEST ]; then
+		TEST=$(echo "$1" | grep "markdown.js")
+		if [ -z $TEST ]; then
+		TEST=$(echo "$1" | grep "models")
+		if [ -z $TEST ]; then
+		TEST=$(echo "$1" | grep "server")
+		if [ -z $TEST ]; then
+		TEST=$(echo "$1" | grep "video")
+		if [ -z $TEST ]; then
+			echo "# mv" "$1" "$2"
+		fi
+		fi
+		fi
+		fi
+		fi
+		fi
+		fi
+		fi
+		fi
+		fi
+		fi
+		fi
+		fi
+		fi
 		fi
 		fi
 		fi
@@ -42,27 +84,50 @@ find_and_move(){
 		if [ -f $f ]; then
 		if [ -d "$DIRECTORY" ]; then
 			donttouch_check "$f" "$DIRECTORY"
+		else
+			mkdir -p "$DIRECTORY"
+			donttouch_check "$f" "$DIRECTORY"
 		fi
 		fi
 	done
 }
-
+DOCS="*.txt 
+*.html 
+*.abw "
+for t in $DOCS; do
+	find_and_move "$t" "$HOME/Documents" 2> /dev/null
+done
+SHEETS="*.gnumeric 
+*.csv "
+for t in $SHEETS; do
+	find_and_move "$t" "$HOME/Documents/Spreadsheets" 2> /dev/null
+done
+TEXT="*.pdf 
+*.ps 
+*.epub "
+for t in $TEXT; do
+	find_and_move "$t" "$HOME/Books" 2> /dev/null
+done
 AUDIO="*.ogg 
 *.flac 
 *.mp3 
-*.ogg"
-TEXT="*.pdf 
-*.ps "
+*.ogg "
+for t in $AUDIO; do
+	find_and_move "$t" "$HOME/Music" 2> /dev/null
+done
 VIDEO="*.mkv 
 *.mp4 
 *.mpeg 
 *.ogv "
-for t in $TEXT; do
-	find_and_move "$t" "$HOME/Books" 2> /dev/null
-done
-for t in $AUDIO; do
-	find_and_move "$t" "$HOME/Music" 2> /dev/null
-done
 for t in $VIDEO; do
 	find_and_move "$t" "$HOME/Videos" 2> /dev/null
+done
+SAMPLES="*.js
+*.json
+*.css
+*.php
+*.sh
+*.bin "
+for t in $SAMPLES; do
+	find_and_move "$t" "$HOME/Documents/Samples" 2> /dev/null
 done
