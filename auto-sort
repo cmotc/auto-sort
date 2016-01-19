@@ -15,7 +15,16 @@ donttouch_check(){
 		if [ -z $TEST ]; then
 		TEST=$(echo "$1" | grep "$HOME/Books")
 		if [ -z $TEST ]; then
-			echo "# mv "" $1 "" $2 "
+		TEST=$(echo "$1" | grep "$HOME/Music")
+		if [ -z $TEST ]; then
+		TEST=$(echo "$1" | grep "$HOME/Videos")
+		if [ -z $TEST ]; then
+		TEST=$(echo "$1" | grep "WORKING_")
+		if [ -z $TEST ]; then
+			mv "$1" "$2"
+		fi
+		fi
+		fi
 		fi
 		fi
 		fi
@@ -52,8 +61,8 @@ for t in $TEXT; do
 	find_and_move "$t" "$HOME/Books" 2> /dev/null
 done
 for t in $AUDIO; do
-	find_and_move "$AUDIO" "$HOME/Music" 2> /dev/null
+	find_and_move "$t" "$HOME/Music" 2> /dev/null
 done
 for t in $VIDEO; do
-	find_and_move "$VIDEO" "$HOME/Videos" 2> /dev/null
+	find_and_move "$t" "$HOME/Videos" 2> /dev/null
 done
