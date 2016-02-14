@@ -1,5 +1,11 @@
 #! /bin/sh
 
+if [ -z $1 ]; then
+	SEARCHDIR="$1"
+else
+	SEARCHDIR="$HOME"
+fi
+
 donttouch_check(){
 	TEST=$(echo "$1" | grep "Project")
 	if [ -z $TEST ]; then
@@ -82,7 +88,7 @@ donttouch_check(){
 find_and_move(){
 	PATTERN="$1"
 	DIRECTORY="$2"
-	LIST=$(find "$HOME" -name "$PATTERN" 2> /dev/null)
+	LIST=$(find "$SEARCHDIR" -name "$PATTERN" 2> /dev/null)
 	for f in $LIST; do
 		if [ -f $f ]; then
 		if [ -d "$DIRECTORY" ]; then
@@ -94,9 +100,7 @@ find_and_move(){
 		fi
 	done
 }
-DOCS="*.txt 
-*.html 
-*.abw 
+DOCS="*.abw 
 *.doc 
 *.odt 
 *.docx "
@@ -143,7 +147,11 @@ SAMPLES="*.js
 *.sh
 *.bin
 *.asp
-*.aspx "
+*.aspx 
+*.txt 
+*.html 
+*.prop 
+*.mhtml "
 for t in $SAMPLES; do
 	find_and_move "$t" "$HOME/Documents/Samples" 2> /dev/null
 done
